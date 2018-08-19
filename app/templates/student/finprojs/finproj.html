@@ -1,0 +1,30 @@
+<!-- app/templates/student/finprojs/finproj.html -->
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}
+    {% if add_finproj %}
+        Add Project or Assignment
+    {% else %}
+        Edit Project or Assignment
+    {% endif %}
+{% endblock %}
+{% block body %}
+<div class="content-section">
+ <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <div class="center">
+            {% if add_finproj %}
+                <h1>Add Project or Assignment</h1>
+            {% else %}
+                <h1>Edit Project or Assignment</h1>
+            {% endif %}
+            <br/>
+            {{ wtf.quick_form(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+<!-- app/templates/student/researchs/rechview.html -->
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}
+           
+   
+{% endblock %}
+{% block body %}
+<div class="content-section">
+ <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <div class="center">
+          <br/>
+       	   
+           {{ utils.flashed_messages() }}
+           <br/>
+           <h1 style="text-align:center;">{{ research.Research.name }}</h1>
+           <div class="row">
+	    <div class="panel panel-primary">
+	      <div class="panel-heading">Details</div>
+	      <div class="panel-body">{{ research.Research.details }}</div>
+	    </div>
+	     <div class="panel panel-primary">
+	      <div class="panel-heading">Category</div>
+	      <div class="panel-body">{{ recipe.Category.name }}</div>
+	    </div>
+	    <div class="panel panel-primary">
+	      <div class="panel-heading">Research was done by</div>
+	      <div class="panel-body">{{ research.User.first_name }}</div>
+	    </div>
+	    {% if research.Research.file_url %}
+	      <img src="{{ research.Research.file_url }}" alt="{{ research.Research.file_name }}" 
+	      style="width:600px;height:450px;">
+	    {% endif %}
+
+          {{ wtf.quick_form(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

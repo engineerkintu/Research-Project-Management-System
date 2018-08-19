@@ -1,0 +1,193 @@
+<!-- app/templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Research Projects | Project Dream Team</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="../static/js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script>
+		$(function(){
+			    $.ajax({
+        			url: '/student/getProjects',
+				type: 'GET',
+			        success:function(response) {
+					console.log(response);
+					var data = JSON.parse(response);
+					var itemsPerRow = 0;
+					var div = $('<div>').attr('class','row');
+					for(var i=0;i<data.length;i++){
+						console.log(data[i].Title);
+						
+					    
+						if(itemsPerRow<3){
+							console.log(i);
+							if(i==data.length-1){
+								div.append(CreateThumb(data[i].Id,data[i].Title,data[i].Description,data[i].Category,data[i].By,data[i].FilePath));
+								$('.well').append(div);
+							}
+							else{
+							div.append(CreateThumb(data[i].Id,data[i].Title,data[i].Description,data[i].Category,data[i].By,data[i].FilePath));
+							itemsPerRow++;
+							}
+						}
+						else{
+							$('.well').append(div);
+							div = $('<div>').attr('class','row');
+							div.append(CreateThumb(data[i].Id,data[i].Title,data[i].Description,data[i].Category,data[i].By,data[i].FilePath));
+							if(i==data.length-1){
+								$('.well').append(div);
+							}
+							itemsPerRow = 0;
+						}
+					}
+					
+			        },
+			        error:function(error){
+			        	console.log(error);
+			        }
+    			});
+
+			
+		function CreateThumb(id,title,desc,category,by,filepath,like){
+			var mainDiv = $('<div>').attr('class','col-sm-4 col-md-4');
+			var thumbNail = $('<div>').attr('class','thumbnail');
+			var img = $('<img>').attr({'src':filepath,'data-holder-rendered':true,'style':'height: 150px; width: 150px; display: block'});
+			var caption = $('<div>').attr('class','caption');
+			var title = $('<h3>').text(title);
+			var desc = $('<p>').text(desc);
+			var category = $('<h5>').text(category);
+			var by = $('<h4>').text(by);
+			
+
+			var p = $('<p>');
+			
+			
+			
+			
+		
+			
+			
+			caption.append(title);
+			caption.append(desc);
+			caption.append(category)
+			caption.append(by)
+			caption.append(p);
+
+			thumbNail.append(img);
+			thumbNail.append(caption);
+			mainDiv.append(thumbNail);
+			return mainDiv;
+
+			
+		}
+	</script>
+    
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand topnav" href="{{ url_for('home.homepage') }}">Project Dream Team</a>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                   {% if current_user.is_authenticated %}
+                     {% if current_user.is_inventor %}
+                       <li><a href="{{ url_for('home.inventor_dashboard') }}"> dashboard</a></li>
+                       <li><a href="{{ url_for('inventor.list_projects') }}">Project</a></li>
+                       <li><a href="{{ url_for('inventor.list_categorys') }}">Categories</a></li>
+                       <li><a href="{{ url_for('inventor.list_researchs') }}">Research</a></li>
+                       <li><a href="{{ url_for('inventor.list_projtitles') }}"> Project Titles</a></li>
+                       
+                      {% elif current_user.is_student %}
+                       <li><a href="{{ url_for('home.student_dashboard') }}"> dashboard</a></li>
+                       <li><a href="{{ url_for('student.list_finprojs') }}">  Student Projects</a></li>
+                       <li><a href="{{ url_for('student.list_researchs') }}">Research Papers</a></li>
+                       <li><a href="{{ url_for('student.list_projects') }}">Research Projects</a></li>
+                       <li><a href="{{ url_for('student.list_internships') }}">Internship</a></li>
+                       <li><a href="{{ url_for('student.list_interns') }}">Interns</a></li>
+                       
+                       {% elif current_user.is_admin %}
+                       <li><a href="{{ url_for('home.admin_dashboard') }}"> dashboard</a></li>
+                       <li><a href="{{ url_for('admin.list_finprojs') }}">  Student Projects</a></li>
+                       <li><a href="{{ url_for('admin.list_researchs') }}">Research Papers</a></li>
+                       <li><a href="{{ url_for('admin.list_projects') }}">Research Projects</a></li>
+                       <li><a href="{{ url_for('admin.list_projtitles') }}">Project Titles</a></li>
+                       <li><a href="{{ url_for('admin.list_stocks') }}">Items</a></li>
+                       <li><a href="{{ url_for('admin.list_internships') }}">Internship</a></li>
+                       <li><a href="{{ url_for('admin.list_interns') }}">Interns</a></li>
+                       
+                     {% else %}
+		       <li><a href="{{ url_for('home.dashboard') }}">Dashboard</a></li>
+		     {% endif %}
+		     <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+		     <li><a><i class="fa fa-user"></i>  Hi, {{ current_user.username }}!</a></li>
+		   {% else %}
+		      <li><a href="{{ url_for('home.homepage') }}">Home</a></li>
+		      <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+		      <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+		   {% endif %}
+              </ul>
+          </div>
+        </div>
+    </nav>
+    <div class="wrapper">
+      <div class="content-section">
+  		<div class="outer">
+    		<div class="middle">
+      	<div class="inner">
+        <br/>
+        {{ utils.flashed_messages() }}
+        <br/>
+        <h1 style="text-align:center;">Research Projects</h1>
+        {% if projects %}
+          <hr class="intro-divider">
+          <div class="center">
+          <div class="well"> </div>
+          <div style="text-align: center">
+        {% else %}
+          <div style="text-align: center">
+            <h3> No project titles have been added. </h3>
+            <hr class="intro-divider">
+        {% endif %}
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="push"></div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                       <li><a href="{{ url_for('home.homepage') }}">Home</a></li>
+		       <li class="footer-menu-divider">⋅</li>
+		       {% if current_user.is_authenticated %}
+		         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+		       {% else %}
+		         <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+			 <li class="footer-menu-divider">⋅</li>
+			 <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+		       {% endif %}
+                    </ul>
+                    <p class="copyright text-muted small">Copyright © 2018. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

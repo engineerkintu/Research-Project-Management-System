@@ -1,0 +1,62 @@
+<!-- app/templates/inventor/titles/titles.html -->
+
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Project Titles{% endblock %}
+{% block body %}
+<div class="content-section">
+  <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <br/>
+        {{ utils.flashed_messages() }}
+        <br/>
+        <h1 style="text-align:center;">Project Titles</h1>
+        {% if projtitles %}
+          <hr class="intro-divider">
+          <div class="center">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th width="15%"> Name </th>
+                  <th width="40%"> Details </th>                
+                  <th width="15%"> Edit </th>
+                  <th width="15%"> View </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for projtitle in projtitles %}
+                <tr>
+                  <td> {{ projtitle.name }} </td>
+                  <td> {{ projtitle.details }} </td>
+                  <td>
+                    <a href="{{ url_for('inventor.edit_projtitle', id=projtitle.id) }}">
+                      <i class="fa fa-pencil"></i> Edit 
+                    </a>
+                  </td>
+                  <td>
+                    <a href="">
+                      <i class="fa fa-trash"></i> View 
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div style="text-align: center">
+        {% else %}
+          <div style="text-align: center">
+            <h3> No project titles have been added in the stock. </h3>
+            <hr class="intro-divider">
+        {% endif %}
+          <a href="{{ url_for('inventor.add_projtitle') }}" class="btn btn-default btn-lg">
+            <i class="fa fa-plus"></i>
+            Add project title
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

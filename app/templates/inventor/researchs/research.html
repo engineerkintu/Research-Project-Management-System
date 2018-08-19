@@ -1,0 +1,30 @@
+<!-- app/templates/inventor/researchs/research.html -->
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}
+    {% if add_research %}
+        Add Research
+    {% else %}
+        Edit Research
+    {% endif %}
+{% endblock %}
+{% block body %}
+<div class="content-section">
+ <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <div class="center">
+            {% if add_research %}
+                <h1>Add Research</h1>
+            {% else %}
+                <h1>Edit Research</h1>
+            {% endif %}
+            <br/>
+            {{ wtf.quick_form(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!-- app/templates/student/projects/project.html -->
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}
+    Innovated Project View       
+   
+{% endblock %}
+{% block body %}
+<div class="content-section">
+ <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <div class="center">
+          <br/>
+       	   
+          
+             <br/>
+           <h1 style="text-align:center;">{{ project .name }}</h1>
+           <div class="row">
+          
+	    <div class="panel panel-primary">
+	      <div class="panel-heading">Details</div>
+	      <div class="panel-body">{{ research.details }}</div>
+	    </div>
+	     <div class="panel panel-primary">
+	      <div class="panel-heading">Category</div>
+	      <div class="panel-body">{{ research.category.name }}</div>
+	    </div>
+	    <div class="panel panel-primary">
+	      <div class="panel-heading">Research was done by</div>
+	      <div class="panel-body">{{ research.user.first_name }}</div>
+	    </div>
+	    </div>
+          {{ wtf.quick_form(form) }}
+           <div class="row">
+            <div class="panel panel-primary">
+	      <div class="panel-heading">Comments</div>
+	      <div class="panel-body">
+	       {% for comment in comments %}
+	        {% if comment.research_id == research.id %}
+	         <p> {{ comment.message }} </p>
+	        {% endif %}
+	       {% endfor %}
+	      </div>
+	    </div>
+	   </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

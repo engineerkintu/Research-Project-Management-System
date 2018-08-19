@@ -1,0 +1,54 @@
+<!-- app/templates/admin/interns/internss.html -->
+
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Internship Applications{% endblock %}
+{% block body %}
+<div class="content-section">
+  <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <br/>
+        {{ utils.flashed_messages() }}
+        <br/>
+        <h1 style="text-align:center;">Internship Applications</h1>
+        {% if interns %}
+          <hr class="intro-divider">
+          <div class="center">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th width="15%"> Student Name </th>
+                  <th width="15%"> Internship </th>
+                  <th width="40%"> Internship Details </th>
+                  <th width="15%"> Delete </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for intern in interns %}
+                <tr>
+                  <td> {{ intern.user.first_name }} </td>
+                  <td> {{ intern.internship.name }} </td>
+                  <td> {{ intern.internship.details }} </td>
+                  <td>
+                    <a href="{{ url_for('admin.delete_intern', id=intern.id) }}">
+                      <i class="fa fa-trash"></i> Delete 
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div style="text-align: center">
+        {% else %}
+          <div style="text-align: center">
+            <h3> No student has applied for internship. </h3>
+            <hr class="intro-divider">
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

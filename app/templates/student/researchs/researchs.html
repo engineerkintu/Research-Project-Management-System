@@ -1,0 +1,69 @@
+<!-- app/templates/student/researchs/researchs.html -->
+
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Research Papers{% endblock %}
+{% block body %}
+<div class="content-section">
+  <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <br/>
+        {{ utils.flashed_messages() }}
+        <br/>
+        <h1 style="text-align:center;">Research Papers</h1>
+        {% if researchs %}
+          <hr class="intro-divider">
+          <div class="center">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th width="15%"> Heading </th>
+                  <th width="40%"> Details </th>
+	          <th width="40%"> Research Category </th>
+	          <th width="60%"> Research Aurthur </th>
+	          <th width="40%">Viewers' Comments</th>
+                  <th width="15%"> View </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for research in researchs %}
+                <tr>
+                  <td> {{ research.name }} </td>
+                  <td> {{ research.details }} </td>
+		  <td> {{ research.category.name }} </td>
+		  <td> {{ research.user.first_name }} </td>
+		  <td>
+                    <a href="{{ url_for('student.comment_research', id=research.id) }}">
+                      
+                       <span class="badge">  <i class="fa fa-pencil"></i>  Comments 
+		        {% if research.comments %}
+		         {{ research.comments.count() }}
+		        {% else %}
+		         0
+		        {% endif %}
+		      </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{{ url_for('student.comment_research', id=research.id) }}">
+                      <i class="fa fa-eye"></i> View 
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div style="text-align: center">
+        {% else %}
+          <div style="text-align: center">
+            <h3> No research paper has been added. </h3>
+            <hr class="intro-divider">
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

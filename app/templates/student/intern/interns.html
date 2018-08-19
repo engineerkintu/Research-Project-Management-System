@@ -1,0 +1,52 @@
+<!-- app/templates/student/intern/interns.html -->
+
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Interns{% endblock %}
+{% block body %}
+<div class="content-section">
+  <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <br/>
+        {{ utils.flashed_messages() }}
+        <br/>
+        <h1 style="text-align:center;">Interns</h1>
+        {% if interns %}
+          <hr class="intro-divider">
+          <div class="center">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th width="15%"> Student name </th>
+                  <th width="15%"> Internship </th>
+                  <th width="15%"> Application Date </th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+              {% for intern in interns %}
+                <tr>
+                  <td> <p> {{ intern.user.first_name }}  {{ intern.user.last_name}} </p> </td>
+                 
+		  <td> {{ intern.internship.name }} </td>
+		  <td> {{ intern.date }} </td>
+                 
+                 
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+           <div style="text-align: center">
+        {% else %}
+          <div style="text-align: center">
+            <h3> No interns. </h3>
+            <hr class="intro-divider">
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
